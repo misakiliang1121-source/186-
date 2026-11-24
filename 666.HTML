@@ -1,1 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据新闻 | 可视化报道</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    background: #ffffff;
+    color: #000000;
+    line-height: 1.8;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+  header {
+    border-bottom: 3px solid #1565c0;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+  }
+  header h1 {
+    font-size: 32px;
+    color: #0d47a1;
+    margin-bottom: 10px;
+  }
+  header .meta {
+    font-size: 14px;
+    color: #555;
+  }
+  section {
+    margin-bottom: 56px;
+  }
+  h2 {
+    font-size: 22px;
+    color: #1565c0;
+    border-left: 6px solid #1565c0;
+    padding-left: 12px;
+    margin-bottom: 18px;
+  }
+  p {
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 14px;
+    text-align: justify;
+  }
+  .chart-box {
+    width: 100%;
+    height: 420px;
+    background: #f7fbff;
+    border: 1px solid #d6e6f5;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  .figure-img {
+    width: 100%;
+    max-width: 720px;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #d6e6f5;
+    border-radius: 8px;
+  }
+  .caption {
+    font-size: 13px;
+    color: #555;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .note {
+    font-size: 13px;
+    color: #666;
+    background: #f0f7ff;
+    border-left: 4px solid #1565c0;
+    padding: 10px 14px;
+    margin-top: 12px;
+  }
+  footer {
+    border-top: 1px solid #d6e6f5;
+    padding-top: 20px;
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="container">
 
+  <header>
+    <h1>数据新闻标题（请替换为 Word 中的标题）</h1>
+    <div class="meta">发布时间：2026-11-24　|　数据来源：请填写　|　作者：请填写</div>
+  </header>
+
+  <!-- 导语 / 正文 -->
+  <section>
+    <p>这里放 Word 新闻稿的导语和正文段落。页面采用纵向布局、白底、蓝色主色调、黑色字体，适合数据新闻阅读。</p>
+    <p>请把 Word 中的文字内容逐段粘贴到 <code>&lt;p&gt;</code> 标签中，保持新闻叙事结构。</p>
+  </section>
+
+  <!-- 表1：动态互动折线图 -->
+  <section>
+    <h2>表1：动态互动折线图</h2>
+    <p>下表数据来自 Word 中的“表1”。鼠标悬停到折线节点上，会显示具体数值和比例；点击图例可以显示/隐藏对应系列。</p>
+    <div id="lineChart" class="chart-box"></div>
+    <div class="caption">图：表1数据转化为动态折线图（数据为示例，请替换为 Word 真实数据）</div>
+    <div class="note">交互说明：鼠标移到数据点上显示“数值 + 占比”；图例可切换系列；支持缩放（如数据点多时）。</div>
+  </section>
+
+  <!-- 图1：柱形图 -->
+  <section>
+    <h2>图1：柱形图</h2>
+    <p>下图把 Word 中的“图1”转化为柱形图。请把示例数据替换为图1对应的真实数值。</p>
+    <div id="barChart" class="chart-box"></div>
+    <div class="caption">图：图1数据转化为柱形图（数据为示例，请替换）</div>
+  </section>
+
+  <!-- 图2：同级文件 31.gif -->
+  <section>
+    <h2>图2：动态图</h2>
+    <p>下图引用与 HTML 同级目录下的 <code>31.gif</code>。请确保 <code>31.gif</code> 与 <code>666.HTML</code> 放在同一文件夹中。</p>
+    <img src="31.gif" alt="图2：31.gif" class="figure-img">
+    <div class="caption">图2：同级目录下的 31.gif</div>
+  </section>
+
+  <footer>
+    © 2026 数据新闻项目 · 页面框架示例
+  </footer>
+
+</div>
+
+<script>
+  // ============ 表1：动态互动折线图 ============
+  // 请把 categories 和 series 数据替换为 Word 表1的真实数据
+  var lineChart = echarts.init(document.getElementById('lineChart'));
+
+  var categories = ['2021', '2022', '2023', '2024', '2025']; // X轴
+  var valuesA = [120, 180, 150, 220, 260];                   // 系列A数值
+  var valuesB = [80, 110, 140, 130, 190];                    // 系列B数值
+
+  // 计算比例（以各年份两系列总和为分母，展示每个点的占比）
+  function calcRatio(a, b) {
+    var total = a + b;
+    return total === 0 ? '0%' : ((a / total) * 100).toFixed(1) + '%';
+  }
+
+  var lineOption = {
+    color: ['#1565c0', '#42a5f5'],
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'cross' },
+      formatter: function (params) {
+        var idx = params[0].dataIndex;
+        var a = valuesA[idx];
+        var b = valuesB[idx];
+        var total = a + b;
+        var html = '<b>' + categories[idx] + '</b><br/>';
+        params.forEach(function (p) {
+          var ratio = total === 0 ? '0%' : ((p.value / total) * 100).toFixed(1) + '%';
+          html += p.marker + p.seriesName + '：' + p.value + '（占比 ' + ratio + '）<br/>';
+        });
+        html += '合计：' + total;
+        return html;
+      }
+    },
+    legend: {
+      data: ['系列A', '系列B'],
+      top: 10,
+      textStyle: { color: '#000' }
+    },
+    grid: { left: '3%', right: '4%', bottom: '8%', top: 70, containLabel: true },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: categories,
+      axisLine: { lineStyle: { color: '#1565c0' } },
+      axisLabel: { color: '#000' }
+    },
+    yAxis: {
+      type: 'value',
+      name: '数值',
+      axisLine: { lineStyle: { color: '#1565c0' } },
+      axisLabel: { color: '#000' },
+      splitLine: { lineStyle: { color: '#e3f0fa' } }
+    },
+    series: [
+      {
+        name: '系列A',
+        type: 'line',
+        smooth: true,
+        symbol: 'circle',
+        symbolSize: 9,
+        data: valuesA,
+        lineStyle: { width: 3 },
+        areaStyle: { opacity: 0.12 },
+        emphasis: { focus: 'series' },
+        label: {
+          show: true,
+          position: 'top',
+          color: '#0d47a1',
+          formatter: function (p) {
+            var total = valuesA[p.dataIndex] + valuesB[p.dataIndex];
+            var ratio = total === 0 ? '0%' : ((valuesA[p.dataIndex] / total) * 100).toFixed(1) + '%';
+            return p.value + '\n' + ratio;
+          }
+        }
+      },
+      {
+        name: '系列B',
+        type: 'line',
+        smooth: true,
+        symbol: 'circle',
+        symbolSize: 9,
+        data: valuesB,
+        lineStyle: { width: 3 },
+        areaStyle: { opacity: 0.12 },
+        emphasis: { focus: 'series' }
+      }
+    ]
+  };
+  lineChart.setOption(lineOption);
+  window.addEventListener('resize', function () { lineChart.resize(); });
+
+  // ============ 图1：柱形图 ============
+  // 请把 categories 和 barData 替换为 Word 图1的真实数据
+  var barChart = echarts.init(document.getElementById('barChart'));
+
+  var barCategories = ['类别一', '类别二', '类别三', '类别四', '类别五'];
+  var barData = [320, 480, 260, 390, 510];
+
+  var barOption = {
+    color: ['#1565c0'],
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      formatter: function (params) {
+        var p = params[0];
+        return p.name + '：' + p.value;
+      }
+    },
+    grid: { left: '3%', right: '4%', bottom: '8%', top: 50, containLabel: true },
+    xAxis: {
+      type: 'category',
+      data: barCategories,
+      axisLine: { lineStyle: { color: '#1565c0' } },
+      axisLabel: { color: '#000', interval: 0, rotate: 0 }
+    },
+    yAxis: {
+      type: 'value',
+      name: '数值',
+      axisLine: { lineStyle: { color: '#1565c0' } },
+      axisLabel: { color: '#000' },
+      splitLine: { lineStyle: { color: '#e3f0fa' } }
+    },
+    series: [
+      {
+        name: '数值',
+        type: 'bar',
+        barWidth: '45%',
+        data: barData,
+        itemStyle: {
+          borderRadius: [4, 4, 0, 0]
+        },
+        label: {
+          show: true,
+          position: 'top',
+          color: '#0d47a1',
+          fontWeight: 'bold'
+        }
+      }
+    ]
+  };
+  barChart.setOption(barOption);
+  window.addEventListener('resize', function () { barChart.resize(); });
+</script>
+</body>
+</html>
